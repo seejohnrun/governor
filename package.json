@@ -1,0 +1,60 @@
+{
+
+	"name": "governor",
+	"version": "0.0.1",
+
+	"private": true,
+
+	"description": "A proxy for external services for consistent rate limiting",
+
+	"homepage": "http://github.com/brewster/governor",
+
+	"repository": {
+		"type": "git",
+		"url": "http://github.com/brewster/governor"
+	},
+
+	"keywords": [ "cache", "proxy", "web", "http", "https" ],
+
+	"author": {
+		"name": "John Crepezzi",
+		"email": "john.crepezzi@gmail.com",
+		"url": "http://seejohncode.com/"
+	},
+
+	"main": "governor",
+
+	"dependencies": {
+		"winston": "*",
+    "hashlib": "*",
+    "redis": "*",
+		"buffertools": "*",
+		"hashlib": "*"
+	},
+
+	"devDependencies": {
+    "jasmine-node": "*"
+  },
+
+	"bundledDependencies": [],
+
+	"engines": {
+		"node": "*"
+	},
+
+	"bin": {
+		"imagine": "./server.js"
+	},
+
+	"files": [ "server.js", "lib" ],
+
+	"directories": {
+		"lib": "./lib"
+	},
+
+	"scripts": {
+		"start": "node server.js",
+    "test": "jasmine-node spec"
+	}
+
+}
