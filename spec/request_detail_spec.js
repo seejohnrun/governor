@@ -1,17 +1,6 @@
-var events = require('events');
 var RequestDetail = require('../lib/request_detail');
+var FakeRequest = require('./spec_helper').FakeRequest;
 
-// A fake request class that we can emit into as we please
-var FakeRequest = function(method, url, headers) {
-  this.method = method
-  this.url = url
-  this.headers = headers;
-}
-FakeRequest.prototype = new events.EventEmitter;
-FakeRequest.prototype.write = function(data) { this.emit('data', data); };
-FakeRequest.prototype.end = function() { this.emit('end'); };
-
-// Tests
 describe('RequestDetail', function() {
 
   it('should record the body as it comes in', function() {
