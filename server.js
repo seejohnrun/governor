@@ -6,8 +6,5 @@ winston.remove(winston.transports.Console);
 winston.add(winston.transports.Console, { colorize: true, level: 'verbose' });
 
 // And create the server
-var server = new ProxyServer({
-  host: '127.0.0.1',
-  port: 8980  
-});
+var server = new ProxyServer({ });
 server.listenForever();
