@@ -4,6 +4,9 @@ var config = {
   host: '127.0.0.1',
   port: 8980,
 
+  // Maximum sockets to open at once
+  maxSockets: 1024,
+
   // How we should log
   logger: {
     type: 'Console',

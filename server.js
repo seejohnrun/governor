@@ -18,6 +18,7 @@ if (config.logger) {
 // And create the server
 var server = new ProxyServer({
   host: config.host,
-  port: config.port
+  port: config.port,
+  maxSockets: config.maxSockets
 });
 server.listenForever();
