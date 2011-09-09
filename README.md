@@ -26,6 +26,18 @@ When I'm ready to write the rest of the README be sure to mention
 * only cache less than 400 responses
 * settings
 * customizable code and message
+* matchers, what they do and how to write them
+
+## Custom Rate Limit Responses
+
+Some web services (like Twitter) have started using 420 to indicate rate limiting instead of the more traditional 400.  _Governor_ uses 400 by default, but you can override it (and the message that comes along with it) using:
+
+``` javascript
+{
+	rateLimitCode: 420,
+  rateLimitMessage: 'Why do you have to do it?'
+}
+```
 
 ---
 
