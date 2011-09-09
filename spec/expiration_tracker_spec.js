@@ -7,8 +7,18 @@ describe('ExpirationTracker', function() {
     cache_manager.flush();
   });
 
-  afterEach(function() {
-    cache_manager.quit();
+  it('should start tracking at 0', function() {
+    var tracker = new ExpirationTracker('hello', 0, 10);
+    runs(function() {
+      var _this = this;
+      tracker.usesInInterval(function(num, total) {
+        expect(num).toBe(0);
+        _this.completed = true;
+      });
+    });
+    waitsFor(function() {
+      return this.completed;
+    });
   });
 
   it('be able to track a use', function() {
@@ -25,6 +35,28 @@ describe('ExpirationTracker', function() {
     waitsFor(function() {
       return this.completed;
     });
+  });
+
+  it('should continue to track over the line', function() {
+    var tracker = new ExpirationTracker('hello', 0, 1);
+    tracker.used();
+    runs(function() {
+      var _this = this;
+      tracker.usesInInterval(function(num, total) {
+        expect(num).toBe(1);
+        expect(total).toBe(0);
+        _this.completed = true;
+      });
+    });
+    waitsFor(function() {
+      return this.completed;
+    });
+  });
+
+  //////////////////
+
+  it('should close the cache manager - really? (https://github.com/pivotal/jasmine/pull/56)', function() {
+    cache_manager.quit();
   });
 
 });
