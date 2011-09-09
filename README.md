@@ -5,8 +5,6 @@ Governor is an node server that listens for requests, and replays then to a fina
 * As a caching layer for certain types of requests
 * As a way to consistently avoid rate limiting from external services
 
----
-
 ## How it works
 
 Start up governor using `npm install && npm start` and then, start routing requests through governor, so a request that used to look like:
@@ -26,9 +24,9 @@ Matcher are how you tell _governor_ what do with certain responses.  A simple ex
 ``` javascript
 matchers: {
   twitter: {
-		cacheFor: 3600,
+    cacheFor: 3600,
     rateLimit: {
-			count: 150,
+      count: 150,
       interval: 3600
     },
     criterion: function(detail) {
@@ -52,8 +50,6 @@ Some web services (like Twitter) have started using 420 to indicate rate limitin
   rateLimitMessage: 'Why do you have to do it?'
 }
 ```
-
----
 
 ## Author
 
