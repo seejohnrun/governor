@@ -1,6 +1,5 @@
 SOONISH
 * strip out some query parameters in order to avoid cache misses (oauth_nonce, etc)
-* more sensible logging
 * more tests, starting in ExpirationTracker
 
 DISTANCE
