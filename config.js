@@ -22,13 +22,31 @@ var config = {
     // per IP Address
     twitterUnauthenticated: {
       cacheFor: 3600,
-      criterion: function(detail) { }
+      rateLimit: {
+        count: 150,
+        interval: 3600
+      },
+      criterion: function(detail) {
+        var token = detail.parsedUrl.query.oauth_token;
+        if (!token && detail.host() === 'api.twitter.com') {
+          return 'twitter';
+        }
+      }
     },
     // Authenticated calls to twitter REST API are subject to 350/hour limit
     // per oauth_token
     twitterAuthenticated: {
       cacheFor: 3600,
-      criterion: function(detail) { }
+      rateLimit: {
+        count: 350,
+        interval: 3600
+      },
+      criterion: function(detail) {
+        var token = detail.parsedUrl.query.oauth_token;
+        if (token && detail.host() === 'api.twitter.com') {
+          return 'twitter-' + token;
+        }          
+      }
     },
     // catch all - we assume that things thrown against this service were meant to be
     // cached, and not rate limited
