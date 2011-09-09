@@ -25,6 +25,7 @@ When I'm ready to write the rest of the README be sure to mention
 
 * only cache less than 400 responses
 * settings
+* customizable code and message
 
 ---
 
