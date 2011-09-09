@@ -55,6 +55,35 @@ var config = {
         }          
       }
     },
+    // Authenticated calls to facebook Graph API are subject to 600/600s
+    // per oauth_token
+    facebookAuthenticated: {
+      cacheFor: 3600,
+      rateLimit: {
+        count: 600,
+        interval: 600
+      },
+      criterion: function(detail) {
+        var token = detail.parsedUrl.query.access_token;
+        if (token && detail.host() === 'graph.facebook.com') {
+          return 'facebook-graph-' + token;
+        }          
+      }
+    },
+    // Unauthenticated calls to facebook Graph API are subject to 100/24h
+    facebookAuthenticated: {
+      cacheFor: 3600,
+      rateLimit: {
+        count: 100,
+        interval: 86400
+      },
+      criterion: function(detail) {
+        var token = detail.parsedUrl.query.access_token;
+        if (token && detail.host() === 'graph.facebook.com') {
+          return 'facebook-graph';
+        }          
+      }
+    },
     // catch all - we assume that things thrown against this service were meant to be
     // cached, and not rate limited
     default: {
