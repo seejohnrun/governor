@@ -1,4 +1,8 @@
 var events = require('events');
+var winston = require('winston');
+
+// Turn off winston
+winston.remove(winston.transports.Console);
 
 // A fake request class that we can emit into as we please
 var FakeRequest = function(method, url, headers) {
