@@ -4,6 +4,10 @@ var config = {
   host: '127.0.0.1',
   port: 8980,
 
+  // For customizing rate limit responses
+  rateLimitCode: 400,
+  rateLimitMessage: 'Hey, settle down.',
+
   // Maximum sockets to open at once
   maxSockets: 1024,
 

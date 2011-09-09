@@ -19,6 +19,13 @@ Will now look like:
 
 All of the original headers, errors, body, etc from the response will be streamed back to you as governor receives it.  It will also be cached, so that next time you make the exact same request, you retrieve it from the cache.  This works with all HTTP verbs.
 
+## Notes for expansion
+
+When I'm ready to write the rest of the README be sure to mention
+
+* only cache less than 400 responses
+* settings
+
 ---
 
 ## Author

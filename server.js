@@ -16,10 +16,5 @@ if (config.logger) {
 cache_manager.configure(config.cache);
 
 // And create the server
-var server = new ProxyServer({
-  host: config.host,
-  port: config.port,
-  matchers: config.matchers,
-  maxSockets: config.maxSockets
-});
+var server = new ProxyServer(config);
 server.listenForever();
