@@ -13,7 +13,7 @@ if (config.logger) {
 }
 
 // Set up the cache client
-// cache_manager.config(config.cache_manager);
+cache_manager.configure(config.cache);
 
 // And create the server
 var server = new ProxyServer({

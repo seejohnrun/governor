@@ -16,6 +16,13 @@ var config = {
     }
   },
 
+  // Configure the cache manager
+  cache: {
+    host: "127.0.0.1",
+    port: 6379,
+    db: 7
+  },
+
   // Matchers
   matchers: {
     // Unauthenticated calls to twitter REST API are subject to a 150/hour limit
