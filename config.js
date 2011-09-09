@@ -79,7 +79,7 @@ var config = {
       },
       criterion: function(detail) {
         var token = detail.parsedUrl.query.access_token;
-        if (token && detail.host() === 'graph.facebook.com') {
+        if (!token && detail.host() === 'graph.facebook.com') {
           return 'facebook-graph';
         }          
       }
