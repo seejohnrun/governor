@@ -137,6 +137,20 @@ describe('RequestDetail', function() {
       expect(detail.headers().host).toBe('google.com');
     });
 
+    it('should add a basic authentication header if there is auth in url', function() {
+      var request = new FakeRequest('GET', 'http://john:pass@google.com');
+      var detail = new RequestDetail(request);
+      var ex = 'Basic ' + new Buffer('john:pass').toString('base64');
+      expect(detail.headers().authorization).toBe(ex);
+
+    });
+
+    it('should not add a basic authentication header by default', function() {
+      var request = new FakeRequest('GET', 'http://google.com');
+      var detail = new RequestDetail(request);
+      expect(detail.headers().authorization).toBe(undefined);
+    });
+
   });
 
   describe('cacheKey', function() {
