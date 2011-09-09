@@ -18,3 +18,9 @@ Will now look like:
     [GET] http://localhost:8980?url=http://api.twitter.com/v1/users/show?screen_name=seejohnrun
 
 All of the original headers, errors, body, etc from the response will be streamed back to you as governor receives it.  It will also be cached, so that next time you make the exact same request, you retrieve it from the cache.  This works with all HTTP verbs.
+
+---
+
+## Author
+
+* [John Crepezzi](mailto:john.crepezzi@gmail.com) at [Brewster](http://brewster.com) 
