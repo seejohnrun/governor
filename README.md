@@ -19,14 +19,28 @@ Will now look like:
 
 All of the original headers, errors, body, etc from the response will be streamed back to you as governor receives it.  It will also be cached, so that next time you make the exact same request, you retrieve it from the cache.  This works with all HTTP verbs.
 
-## Notes for expansion
+## Matchers
 
-When I'm ready to write the rest of the README be sure to mention
+Matcher are how you tell _governor_ what do with certain responses.  A simple example would be:
 
-* only cache less than 400 responses
-* settings
-* customizable code and message
-* matchers, what they do and how to write them
+``` javascript
+matchers: {
+  twitter: {
+		cacheFor: 3600,
+    rateLimit: {
+			count: 150,
+      interval: 3600
+    },
+    criterion: function(detail) {
+      if (detail.host() === 'api.twitter.com') {
+        return 'twitter';
+      } 
+    }
+  }
+}
+``` 
+
+What this will do, is upon receiving a request that returns a truthy response from criterion, will cache the response for an hour, rate limit it to 150 requests per hour, with the rate limiting based on the key "twitter".  You can use this to single rate limiting down to the access details of the user making the call (to track rate limits per `access_token` for example).  The cacheFor and rateLimit pieces are both optional.
 
 ## Custom Rate Limit Responses
 
@@ -34,7 +48,7 @@ Some web services (like Twitter) have started using 420 to indicate rate limitin
 
 ``` javascript
 {
-	rateLimitCode: 420,
+  rateLimitCode: 420,
   rateLimitMessage: 'Why do you have to do it?'
 }
 ```
