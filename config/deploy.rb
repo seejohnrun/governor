@@ -51,7 +51,7 @@ end
 
 # update symlinks after code is updated and fix perms; cleanup old releases
 before "deploy", "deploy:fix_cached_copy_perms"
-after "deploy:update_code", "deploy:fix_perms", "deploy:symlink_configs" #,"deploy:npm"
+after "deploy:update_code", "deploy:fix_perms", "deploy:symlink_configs"
 after "deploy:update", "deploy:cleanup"
 
 ## Spam campfire with our intentions
@@ -134,11 +134,6 @@ namespace :deploy do
     %w(config).each do |f|
       run "ln -svf #{shared_path}/config/#{f}.js #{release_path}/#{f}.js"
     end
-  end
-
-  task :npm, :except => { :no_release => true } do
-    logger.info "\e[0;31;1mNOTICE:\e[0m Linking npm modules..."
-    run "#{sudo :as => "root"} /bin/sh -c 'export PATH=$PATH:/opt/nodejs/bin && cd #{release_path} && npm link && chown -Rh deploy:eng node_modules && chmod -R g+w node_modules'"
   end
 
   task :fix_perms, :except => { :no_release => true } do
