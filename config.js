@@ -28,10 +28,11 @@ var config = {
   },
 
   // Matchers
-  matchers: {
+  matchers: [
     // Unauthenticated calls to twitter REST API are subject to a 150/hour limit
     // per IP Address
-    twitterUnauthenticated: {
+    {
+      name: 'twitterUnauthenticated',
       cacheFor: 3600,
       rateLimit: {
         count: 150,
@@ -46,7 +47,8 @@ var config = {
     },
     // Authenticated calls to twitter REST API are subject to 350/hour limit
     // per oauth_token
-    twitterAuthenticated: {
+    {
+      name: 'twitterAuthenticated',
       cacheFor: 3600,
       rateLimit: {
         count: 350,
@@ -61,7 +63,8 @@ var config = {
     },
     // Authenticated calls to facebook Graph API are subject to 600/600s
     // per oauth_token
-    facebookAuthenticated: {
+    {
+      name: 'facebookAuthenticated',
       cacheFor: 3600,
       rateLimit: {
         count: 600,
@@ -75,7 +78,8 @@ var config = {
       }
     },
     // Unauthenticated calls to facebook Graph API are subject to 100/24h
-    facebookAuthenticated: {
+    {
+      name: 'facebookAuthenticated',
       cacheFor: 3600,
       rateLimit: {
         count: 100,
@@ -90,13 +94,14 @@ var config = {
     },
     // catch all - we assume that things thrown against this service were meant to be
     // cached, and not rate limited
-    default: {
+    {
+      name: 'default',
       cacheFor: 3600,
       criterion: function(detail) {
         return 'default';
       }
     }
-  }
+  ]
 
 };
 
