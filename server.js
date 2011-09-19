@@ -3,6 +3,7 @@ var fs = require('fs');
 var ProxyServer = require('./lib/proxy_server');
 var cache_manager = require('./lib/cache_manager');
 var config = require('./config');
+var matchers = require('./matchers');
 
 // Initialize winston, default stdout
 winston.remove(winston.transports.Console);
@@ -16,5 +17,5 @@ if (config.logger) {
 cache_manager.configure(config.cache);
 
 // And create the server
-var server = new ProxyServer(config);
+var server = new ProxyServer(config, matchers);
 server.listenForever();
