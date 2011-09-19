@@ -11,6 +11,7 @@ var matchers = [
     },
     criterion: function(detail) {
       var token = detail.parsedUrl.query.oauth_token;
+      if (detail.path().indexOf('verify_credentials') === -1) return;
       if (!token && detail.host() === 'api.twitter.com') {
         return 'twitter';
       }
@@ -27,6 +28,7 @@ var matchers = [
     },
     criterion: function(detail) {
       var token = detail.parsedUrl.query.oauth_token;
+      if (detail.path().indexOf('verify_credentials') === -1) return;
       if (token && detail.host() === 'api.twitter.com') {
         return 'twitter-' + token;
       }          
