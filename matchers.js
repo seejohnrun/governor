@@ -12,7 +12,6 @@ var matchers = [
     criterion: function(detail) {
       if (detail.host() === 'api.twitter.com') {
         var authHeader = detail.headers().authorization;
-        console.log(authHeader);
         if (authHeader && typeof(authHeader) !== 'undefined') {
           var match = authHeader.match(/oauth_token\=\"([A-Za-z0-9_-]+)/);
           if (match && match.length === 2) {
