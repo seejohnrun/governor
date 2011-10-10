@@ -54,18 +54,48 @@ var matchers = [
     }
   },
   // Unauthenticated calls to facebook Graph API are subject to 100/24h
+  // Calls that make it to here are unauthenticated
   {
-    name: 'facebookAuthenticated',
+    name: 'facebookUnauthenticated',
     cacheFor: 3600,
     rateLimit: {
       count: 100,
       interval: 86400
     },
     criterion: function(detail) {
-      var token = detail.parsedUrl.query.access_token;
-      if (!token && detail.host() === 'graph.facebook.com') {
+      if (detail.host() === 'graph.facebook.com') {
         return 'facebook-graph';
       }          
+    }
+  },
+  // Authenticated calls to the Foursquare API are 500 per hour per token
+  {
+    name: 'foursquareAuthenticated',
+    cacheFor: 3600,
+    rateLimit: {
+      count: 500,
+      interval: 3600,
+    },
+    criterion: function(detail) {
+      var token = detail.parsedUrl.query.oauth_token;
+      if (token && detail.host() === 'api.foursquare.com') {
+        return 'foursquare-' + token;
+      }
+    }
+  },
+  // Unauthenticated calls to Foursquare API are 500 per hour per consumer
+  // Non-authenticated calls are unauthenticated
+  {
+    name: 'foursquareUnauthenticated',
+    cacheFor: 3600,
+    rateLimit: {
+      count: 500,
+      interval: 3600
+    },
+    criterion: function(detail) {
+      if (detail.host() === 'api.foursquare.com') {
+        return 'foursquare';
+      }
     }
   },
   // catch all - we assume that things thrown against this service were meant to be
