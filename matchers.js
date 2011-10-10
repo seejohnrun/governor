@@ -1,22 +1,5 @@
 // Matchers
 var matchers = [
-  // Unauthenticated calls to twitter REST API are subject to a 150/hour limit
-  // per IP Address
-  {
-    name: 'twitterUnauthenticated',
-    cacheFor: 3600,
-    rateLimit: {
-      count: 150,
-      interval: 3600
-    },
-    criterion: function(detail) {
-      var token = detail.parsedUrl.query.oauth_token;
-      if (detail.path().indexOf('verify_credentials') === -1) return;
-      if (!token && detail.host() === 'api.twitter.com') {
-        return 'twitter';
-      }
-    }
-  },
   // Authenticated calls to twitter REST API are subject to 350/hour limit
   // per oauth_token
   {
@@ -27,11 +10,32 @@ var matchers = [
       interval: 3600
     },
     criterion: function(detail) {
-      var token = detail.parsedUrl.query.oauth_token;
-      if (detail.path().indexOf('verify_credentials') === -1) return;
-      if (token && detail.host() === 'api.twitter.com') {
-        return 'twitter-' + token;
+      if (detail.host() === 'api.twitter.com') {
+        var authHeader = detail.headers().authorization;
+        console.log(authHeader);
+        if (authHeader && typeof(authHeader) !== 'undefined') {
+          var match = authHeader.match(/oauth_token\=\"([A-Za-z0-9_-]+)/);
+          if (match && match.length === 2) {
+            var token = match[1]; 
+            return 'twitter-' + token;
+          }
+        }
       }          
+    }
+  },
+  // Unauthenticated calls to twitter REST API are subject to a 150/hour limit
+  // per IP Address.  Not authenticated, must be Unauthenticated
+  {
+    name: 'twitterUnauthenticated',
+    cacheFor: 3600,
+    rateLimit: {
+      count: 150,
+      interval: 3600
+    },
+    criterion: function(detail) {
+      if (detail.host() === 'api.twitter.com') {
+        return 'twitter';
+      }
     }
   },
   // Authenticated calls to facebook Graph API are subject to 600/600s
