@@ -5,7 +5,7 @@ var config = {
   port: 8980,
 
   // For customizing rate limit responses
-  rateLimitCode: 400,
+  rateLimitCode: 420,
   rateLimitMessage: 'Hey, settle down.',
 
   // Maximum sockets to open at once
