@@ -33,14 +33,14 @@ set :deploy_lockfile, "#{shared_path}/log/deploy_lockfile.txt"
 
 task :production do
   set :rails_env, "production"
-  server '50.57.78.86', :app, :db, :primary => true #dims01
-  server '50.57.78.87', :app #dims02
+  server 'prod-dims-r01.ihost.brewster.com', :app, :db, :primary => true
+  server 'prod-dims-r02.ihost.brewster.com', :app
   after "deploy:update", "deploy:restart_prod"
 end
 
 task :staging do
   set :rails_env, "staging"
-  server '50.57.69.84', :app, :db, :primary => true #sfe01
+  server 'staging-fe-r01.ihost.brewster.com', :app, :db, :primary => true
   after "deploy:update", "deploy:restart_staging"
 end
 
