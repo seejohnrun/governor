@@ -78,16 +78,14 @@ namespace :irc do
   desc "Tell #BrewsterBots that we're about to do a deploy"
   task :notify_before_deploy do
     logger.info "\e[0;31;1mNOTICE:\e[0m Notifying IRC that we're deploying."
-    local_user = ENV['USER'] || ENV['USERNAME']
-    $dmsg = "#{application}: #{local_user} is deploying to #{rails_env} with branch #{branch}."
+    $dmsg = "#{application}: #{user} is deploying to #{rails_env} with branch #{branch}."
     cinchbot.start
   end
 
   desc "Tell #BrewsterBots that we're done deploying"
   task :notify_after_deploy do
     logger.info "\e[0;31;1mNOTICE:\e[0m Notifying IRC that we're done deploying."
-    local_user = ENV['USER'] || ENV['USERNAME']
-    $dmsg = "#{application}: #{local_user} has FINISHED deploying to #{rails_env}."
+    $dmsg = "#{application}: #{user} has FINISHED deploying to #{rails_env}."
     cinchbot.start
   end
 end
