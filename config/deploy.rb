@@ -1,9 +1,9 @@
 require 'railsless-deploy' 
 
 begin
-  require 'capistrano/campfire'
+  require 'cinch'
 rescue LoadError
-  abort "No soup for you! =>gem install capistrano-campfire; gem install tinder"
+  abort "No soup for you! =>gem install cinch"
 end
 
 # rvm
@@ -24,12 +24,26 @@ set :deploy_via, :remote_cache
 set :use_sudo, true
 set :admin_runner, "root"
 set :keep_releases, 3
-set :campfire_options, :account => 'brewster',
-                       :room => 'the main room',
-                       :token => 'e4152caa86149bec0ad5704c2dfaee752b19c83d',
-                       :ssl => true
 set :deploy_lockfile, "#{shared_path}/log/deploy_lockfile.txt"
 
+# IRC
+set :cinchbot do
+  bot = Cinch::Bot.new do
+    configure do |c|
+      c.server = "irc.ihost.brewster.com"
+      c.port = "6667"
+      c.reconnect = false
+      c.verbose = false
+      c.channels = ["#BrewsterBots"]
+      c.password = "noSOUP4u"
+      c.nick = "deploybot"
+    end
+    on :join, do |a|
+      a.reply "#{$dmsg}"
+      bot.quit
+    end
+  end
+end
 
 task :production do
   set :rails_env, "production"
@@ -56,26 +70,27 @@ after "deploy:update", "deploy:cleanup"
 
 ## Spam campfire with our intentions
 %w(deploy deploy:migrations deploy:pre_migrations).each do |hook|
-  before(hook.to_sym, 'campfire:notify_before_deploy'.to_sym)
-  after(hook.to_sym, 'campfire:notify_after_deploy'.to_sym)
+  before(hook.to_sym, 'irc:notify_before_deploy'.to_sym)
+  after(hook.to_sym, 'irc:notify_after_deploy'.to_sym)
 end
 
-namespace :campfire do
-  desc "Deploy notice to Campfire"
+namespace :irc do
+  desc "Tell #BrewsterBots that we're about to do a deploy"
   task :notify_before_deploy do
+    logger.info "\e[0;31;1mNOTICE:\e[0m Notifying IRC that we're deploying."
     local_user = ENV['USER'] || ENV['USERNAME']
-    campfire_room.speak "#{local_user} is deploying to #{rails_env} with #{application}/#{branch}."
-    campfire_room.play('crickets') if rails_env == 'production'
+    $dmsg = "#{application}: #{local_user} is deploying to #{rails_env} with branch #{branch}."
+    cinchbot.start
   end
 
-  desc "Tell campfire that we're done deploying"
+  desc "Tell #BrewsterBots that we're done deploying"
   task :notify_after_deploy do
+    logger.info "\e[0;31;1mNOTICE:\e[0m Notifying IRC that we're done deploying."
     local_user = ENV['USER'] || ENV['USERNAME']
-    campfire_room.speak "#{local_user} is finished deploying to #{rails_env} with #{application}/#{branch}."
-    campfire_room.play('greatjob') if rails_env == 'production'
+    $dmsg = "#{application}: #{local_user} has FINISHED deploying to #{rails_env}."
+    cinchbot.start
   end
 end
-
 
 ## Start deploying
 namespace :deploy do
