@@ -134,6 +134,7 @@ namespace :deploy do
     self.roles[:app].each do |host|
       logger.info "\e[0;31;1mNOTICE:\e[0m Restarting via => monit restart prod_nodejs_governor..."
       run "#{sudo :as => "root"} monit restart prod_nodejs_governor", :hosts => host
+      sleep 5
     end
   end
   after 'deploy:restart_prod', 'deploy:unlock'
