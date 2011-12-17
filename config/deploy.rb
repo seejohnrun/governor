@@ -49,6 +49,9 @@ task :production do
   set :rails_env, "production"
   server 'prod-dims-r01.ihost.brewster.com', :app, :db, :primary => true
   server 'prod-dims-r02.ihost.brewster.com', :app
+  server 'prod-dims-r03.ihost.brewster.com', :app
+  server 'prod-dims-r04.ihost.brewster.com', :app
+  server 'prod-dims-r05.ihost.brewster.com', :app
   after "deploy:update", "deploy:restart_prod"
 end
 
