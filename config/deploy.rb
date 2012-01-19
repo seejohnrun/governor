@@ -54,7 +54,9 @@ task :production do
   server 'prod-dims-r05', :app
   server 'prod-dims-r06', :app
   server 'prod-dims-r07', :app
+  server 'prod-dims-r08', :app
   server 'prod-dims-r09', :app
+  server 'prod-dims-r10', :app
   after "deploy:update", "deploy:restart_prod"
 end
 
