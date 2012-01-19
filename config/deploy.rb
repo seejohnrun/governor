@@ -47,17 +47,20 @@ end
 
 task :production do
   set :rails_env, "production"
-  server 'prod-dims-r01.ihost.brewster.com', :app, :db, :primary => true
-  server 'prod-dims-r02.ihost.brewster.com', :app
-  server 'prod-dims-r03.ihost.brewster.com', :app
-  server 'prod-dims-r04.ihost.brewster.com', :app
-  server 'prod-dims-r05.ihost.brewster.com', :app
+  server 'prod-dims-r01', :app, :db, :primary => true
+  server 'prod-dims-r02', :app
+  server 'prod-dims-r03', :app
+  server 'prod-dims-r04', :app
+  server 'prod-dims-r05', :app
+  server 'prod-dims-r06', :app
+  server 'prod-dims-r07', :app
+  server 'prod-dims-r09', :app
   after "deploy:update", "deploy:restart_prod"
 end
 
 task :staging do
   set :rails_env, "staging"
-  server 'staging-fe-r01.ihost.brewster.com', :app, :db, :primary => true
+  server 'staging-fe-r01', :app, :db, :primary => true
   after "deploy:update", "deploy:restart_staging"
 end
 
