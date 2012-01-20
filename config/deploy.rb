@@ -57,16 +57,6 @@ task :production do
   server 'prod-dims-r08', :app
   server 'prod-dims-r09', :app
   server 'prod-dims-r10', :app
-  server 'prod-dims-r11', :app
-  server 'prod-dims-r12', :app
-  server 'prod-dims-r13', :app
-  server 'prod-dims-r14', :app
-  server 'prod-dims-r15', :app
-  server 'prod-dims-r16', :app
-  server 'prod-dims-r17', :app
-  server 'prod-dims-r18', :app
-  server 'prod-dims-r19', :app
-  server 'prod-dims-r20', :app
   after "deploy:update", "deploy:restart_prod"
 end
 
