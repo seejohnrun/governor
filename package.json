@@ -26,7 +26,6 @@
 
 	"dependencies": {
 		"winston": "*",
-    "hashlib": "*",
     "redis": "*",
 		"buffertools": "*",
 		"hashlib": "*"
