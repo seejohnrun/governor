@@ -16,7 +16,8 @@ set :rvm_type, :system
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 set :application, "governor"
-set :repository,  "git@github.com:brewster/governor.git"
+#set :repository,  "git@github.com:brewster/governor.git"
+set :repository, "git://git-r01.ihost.brewster.com/git/governor.git"
 set :scm, :git
 set :user, ENV['BREWSTER_USER'] || ENV['USER']
 set :branch, ENV['BRANCH'] || "master"
