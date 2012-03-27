@@ -16,8 +16,6 @@ set :rvm_type, :system
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 set :application, "governor"
-#set :repository,  "git@github.com:brewster/governor.git"
-set :repository, "git://git-r01.ihost.brewster.com/git/governor.git"
 set :scm, :git
 set :user, ENV['BREWSTER_USER'] || ENV['USER']
 set :branch, ENV['BRANCH'] || "master"
@@ -65,6 +63,13 @@ task :staging do
   set :rails_env, "staging"
   server 'staging-fe-r01', :app, :db, :primary => true
   after "deploy:update", "deploy:restart_staging"
+end
+
+# Set repo via env, git-r01 as default
+if ENV['REPO'] == 'github'
+  set :repository, "git@github.com:brewster/governor.git"
+else
+  set :repository, "git://git-r01.ihost.brewster.com/git/governor.git"
 end
 
 # Lock deploy, :migrations, :pre_migrations
